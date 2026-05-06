@@ -36,6 +36,18 @@ def test_add_new_user(setup_database, connection):
     user = cursor.fetchone()
     assert user, "Kullanıcı veri tabanına eklenmiş olmalıdır."
 
+def test_add_existing_user_error(setup_database):
+    """Aynı kullanıcı adıyla ikinci bir kullanıcı eklenemeyeceğini test eder."""
+    username = "duplicate_user"
+    mail1 = "user1@example.com"
+    mail2 = "user2@example.com"
+    password = "password123"
+
+    add_user(username, mail1, password)
+
+    result = add_user(username, mail2, password)
+    assert result is False, "ayn ıkullanıcı adı ile yeni hesp oluşturulamaz"
+
 # İşte yazabileceğiniz bazı testler:
 """
 Var olan bir kullanıcı adıyla kullanıcı eklemeye çalışmayı test etme.
